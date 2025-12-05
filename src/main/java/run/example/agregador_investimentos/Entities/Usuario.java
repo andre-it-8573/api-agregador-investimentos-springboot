@@ -19,7 +19,6 @@ import java.util.UUID;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     @Column(name = "cd_usuario")
     private UUID idUsuario;
 
@@ -43,7 +42,7 @@ public class Usuario {
 
     // Para soft delete
     @Column(name = "fl_status")
-    private Boolean ativo;
+    private Boolean active;
 
     // DTO -> Entity
     public Usuario(RequestUsuario requestUsuario){
@@ -53,7 +52,7 @@ public class Usuario {
 
         this.criacao_entidade = Instant.now();
         this.atualizacao_entidade = null;
-        this.ativo = true;
+        this.active = true;
     }
 
 }

@@ -13,7 +13,7 @@ import java.net.URI;
 public class UsuarioController {
 
     // Mesmo princípio da classe de regra de negócio
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
     private UsuarioController(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
     }
