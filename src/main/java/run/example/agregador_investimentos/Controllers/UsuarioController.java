@@ -3,6 +3,7 @@ package run.example.agregador_investimentos.Controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import run.example.agregador_investimentos.Entities.RequestUsuario;
+import run.example.agregador_investimentos.Entities.ResponseUsuario;
 import run.example.agregador_investimentos.Entities.Usuario;
 import run.example.agregador_investimentos.Service.UsuarioService;
 
@@ -19,8 +20,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<Usuario> buscarUsuarioPeloId(@PathVariable("idUsuario") int idUsuario){
-        return null;
+    public ResponseEntity<ResponseUsuario> buscarUsuarioPeloId(@PathVariable("idUsuario") String idUsuario){
+        var usuario = usuarioService.buscarUsuarioPeloId(idUsuario);
+        if (usuario.isPresent()){
+            // HTTP 200 (OK) com o DTO
+            return ResponseEntity.ok(usuario.get());
+        } else {
+            // HTTP 404 (NOT FOUND)
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping

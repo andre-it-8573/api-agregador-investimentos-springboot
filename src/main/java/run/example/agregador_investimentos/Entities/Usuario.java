@@ -44,7 +44,7 @@ public class Usuario {
     @Column(name = "fl_status")
     private Boolean active;
 
-    // DTO -> Entity
+    // DTOs -> Entity
     public Usuario(RequestUsuario requestUsuario){
         this.nomeUsuario = requestUsuario.nomeUsuario();
         this.emailUsuario = requestUsuario.emailUsuario();
