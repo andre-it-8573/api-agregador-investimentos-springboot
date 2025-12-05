@@ -35,6 +35,6 @@ public class UsuarioController {
     public ResponseEntity<Usuario> registrarUsuario(@RequestBody RequestUsuario requestUsuario){
         var idUsuario = usuarioService.registrarUsuario(requestUsuario);
         //  HTTP 201 (Created) e URI da criação junto do Id
-        return ResponseEntity.created(URI.create("/v1/users" + idUsuario.toString())).build();
+        return ResponseEntity.created(URI.create("/v1/users " + idUsuario.toString())).build();
     }
 }
