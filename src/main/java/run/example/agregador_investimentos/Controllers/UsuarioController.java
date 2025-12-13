@@ -1,5 +1,7 @@
 package run.example.agregador_investimentos.Controllers;
 
+import jakarta.transaction.Transactional;
+import org.apache.coyote.Request;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,9 @@ import java.util.List;
 @RequestMapping("/v1/users")
 public class UsuarioController {
 
-    // Mesmo princípio da classe de regra de negócio
+    // Mesmo princípio da classe de regra de negócio (@Autowired substitui)
     private final UsuarioService usuarioService;
-    private UsuarioController(UsuarioService usuarioService){
+    public UsuarioController(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
     }
 
@@ -44,10 +46,21 @@ public class UsuarioController {
     public ResponseEntity<Usuario> registrarUsuario(@RequestBody RequestUsuario requestUsuario){
         var idUsuario = usuarioService.registrarUsuario(requestUsuario);
         //  HTTP 201 (Created) e URI da criação junto do Id
-        return ResponseEntity.created(URI.create("/v1/users " + idUsuario.toString())).build();
+        return ResponseEntity.created(URI.create("/v1/users/" + idUsuario.toString())).build();
+    }
+
+    @PutMapping("/{id}")
+    // Mais de um comando SQL no banco
+    @Transactional
+    public ResponseEntity<Void> atualizarUsuario(@RequestBody RequestUsuario requestUsuario,
+                                                 @PathVariable("id") String idUsuario){
+        usuarioService.atualizarUsuario(requestUsuario, idUsuario);
+        // HTTP 204 (No Content)
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deletarUsuario(@PathVariable("id") String idUsuario){
         usuarioService.deletarUsuario(idUsuario);
         // HTTP 204 (No Content)

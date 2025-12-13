@@ -41,13 +41,30 @@ public class UsuarioService {
             return novoUsuario.getIdUsuario();
     }
 
+    public void atualizarUsuario(RequestUsuario requestUsuario, String idUsuario){
+        Optional<Usuario> optionalUsuario= usuarioRepository.findById(UUID.fromString(idUsuario));
+        if (optionalUsuario.isPresent()){
+            Usuario usuario = optionalUsuario.get();
+            if (usuario.getNomeUsuario() != null &&
+                usuario.getEmailUsuario() != null &&
+                usuario.getSenhaUsuario() != null){
+                usuario.setNomeUsuario(requestUsuario.nomeUsuario());
+                usuario.setEmailUsuario(requestUsuario.emailUsuario());
+                usuario.setSenhaUsuario(requestUsuario.senhaUsuario());
+            }
+            usuarioRepository.save(usuario);
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
+
     public void deletarUsuario(String idUsuario){
         Optional<Usuario> optionalUsuario= usuarioRepository.findById(UUID.fromString(idUsuario));
         if (optionalUsuario.isPresent()){
             Usuario usuario = optionalUsuario.get();
             usuario.setActive(false);
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Usuário não encontrado");
         }
     }
 }
