@@ -24,6 +24,7 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios(){
         var usuarios = usuarioService.listarUsuarios();
+        // HTTP 200 (OK)
         return ResponseEntity.ok(usuarios);
     }
 
@@ -44,5 +45,12 @@ public class UsuarioController {
         var idUsuario = usuarioService.registrarUsuario(requestUsuario);
         //  HTTP 201 (Created) e URI da criação junto do Id
         return ResponseEntity.created(URI.create("/v1/users " + idUsuario.toString())).build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarUsuario(@PathVariable("id") String idUsuario){
+        usuarioService.deletarUsuario(idUsuario);
+        // HTTP 204 (No Content)
+        return ResponseEntity.noContent().build();
     }
 }

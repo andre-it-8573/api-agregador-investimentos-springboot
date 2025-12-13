@@ -1,5 +1,6 @@
 package run.example.agregador_investimentos.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,5 +39,15 @@ public class UsuarioService {
         Usuario novoUsuario = new Usuario(requestUsuario);
             usuarioRepository.save(novoUsuario);
             return novoUsuario.getIdUsuario();
+    }
+
+    public void deletarUsuario(String idUsuario){
+        Optional<Usuario> optionalUsuario= usuarioRepository.findById(UUID.fromString(idUsuario));
+        if (optionalUsuario.isPresent()){
+            Usuario usuario = optionalUsuario.get();
+            usuario.setActive(false);
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 }
