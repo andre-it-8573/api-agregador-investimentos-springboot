@@ -1,5 +1,6 @@
 package run.example.agregador_investimentos.Controllers;
 
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import run.example.agregador_investimentos.Entities.RequestUsuario;
@@ -8,6 +9,7 @@ import run.example.agregador_investimentos.Entities.Usuario;
 import run.example.agregador_investimentos.Service.UsuarioService;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -17,6 +19,12 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private UsuarioController(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> listarUsuarios(){
+        var usuarios = usuarioService.listarUsuarios();
+        return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{idUsuario}")

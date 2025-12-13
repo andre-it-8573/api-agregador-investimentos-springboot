@@ -1,5 +1,6 @@
 package run.example.agregador_investimentos.Service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import run.example.agregador_investimentos.Entities.RequestUsuario;
@@ -7,6 +8,7 @@ import run.example.agregador_investimentos.Entities.ResponseUsuario;
 import run.example.agregador_investimentos.Entities.Usuario;
 import run.example.agregador_investimentos.Repository.UsuarioRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,17 +21,22 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    // Retornar somente Id, em vez da DTO. Tampouco, a classe inteira
-    public UUID registrarUsuario(RequestUsuario requestUsuario){
-        // DTO -> Entity
-        Usuario novoUsuario = new Usuario(requestUsuario);
-            usuarioRepository.save(novoUsuario);
-            return novoUsuario.getIdUsuario();
+    public List<Usuario> listarUsuarios(){
+        var usuarios = usuarioRepository.findAllByActiveTrue();
+        return usuarios;
     }
 
     // Com tipo Optional<T>, retorna DTO de resposta se tiver e Optional.empty() caso não possua
     public Optional<ResponseUsuario> buscarUsuarioPeloId(String idUsuario){
         var usuario = usuarioRepository.findById(UUID.fromString(idUsuario));
         return usuario.map(ResponseUsuario::fromEntity);
+    }
+
+    // Retornar somente Id, em vez da DTO. Tampouco, a classe inteira
+    public UUID registrarUsuario(RequestUsuario requestUsuario){
+        // DTO -> Entity
+        Usuario novoUsuario = new Usuario(requestUsuario);
+            usuarioRepository.save(novoUsuario);
+            return novoUsuario.getIdUsuario();
     }
 }
