@@ -24,7 +24,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarUsuarios(){
+    public ResponseEntity<List<ResponseUsuario>> listarUsuarios(){
         var usuarios = usuarioService.listarUsuarios();
         // HTTP 200 (OK)
         return ResponseEntity.ok(usuarios);
@@ -43,7 +43,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> registrarUsuario(@RequestBody RequestUsuario requestUsuario){
+    public ResponseEntity<ResponseUsuario> registrarUsuario(@RequestBody RequestUsuario requestUsuario){
         var idUsuario = usuarioService.registrarUsuario(requestUsuario);
         //  HTTP 201 (Created) e URI da criação junto do Id
         return ResponseEntity.created(URI.create("/v1/users/" + idUsuario.toString())).build();

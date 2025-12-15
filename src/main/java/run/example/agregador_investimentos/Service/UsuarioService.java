@@ -12,6 +12,7 @@ import run.example.agregador_investimentos.Repository.UsuarioRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -22,9 +23,12 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public List<Usuario> listarUsuarios(){
-        var usuarios = usuarioRepository.findAllByActiveTrue();
-        return usuarios;
+    public List<ResponseUsuario> listarUsuarios(){
+        List<Usuario> usuarios = usuarioRepository.findAllByActiveTrue();
+        // Entity -> DTO usando Stream API, que pega a lista de entidades e as mapeia para a lista de DTOs de resposta
+        return usuarios.stream()
+                .map(ResponseUsuario::fromEntity)
+                .collect(Collectors.toList());
     }
 
     // Com tipo Optional<T>, retorna DTO de resposta se tiver e Optional.empty() caso não possua
