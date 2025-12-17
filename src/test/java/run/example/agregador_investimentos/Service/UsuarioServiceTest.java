@@ -17,6 +17,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 class UsuarioServiceTest {
@@ -30,7 +31,7 @@ class UsuarioServiceTest {
     @InjectMocks
     private UsuarioService usuarioService;
 
-    // Por metodo
+    // Uma classe por metodo, um metodo por teste
     @Nested
     class registrarUsuario {
         @Test
@@ -58,6 +59,20 @@ class UsuarioServiceTest {
 
             // Validação se a chamada do metodo .registrarUsuario com a DTO não tem retorno nulo
             assertNotNull(output);
+        }
+
+        @Test
+        @DisplayName("Deve retornar uma exceção quando um erro acontecer")
+        void deveRetornarExcecaoQuandoOcorreErro(){
+
+            doThrow(new RuntimeException()).when(usuarioRepository).save(any());
+
+            var input = new RequestUsuario("usuario",
+                    "email@email.com",
+                    "");
+            // Não testar apenas caminhos de sucesso, e sim todos os cenários, especialmente críticos
+            assertThrows(RuntimeException.class, ()-> usuarioService.registrarUsuario(input));
+
         }
     }
 
