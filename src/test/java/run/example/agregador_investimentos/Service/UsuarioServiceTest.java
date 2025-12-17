@@ -14,6 +14,7 @@ import run.example.agregador_investimentos.Entities.Usuario;
 import run.example.agregador_investimentos.Repository.UsuarioRepository;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -133,5 +134,33 @@ class UsuarioServiceTest {
         }
     }
 
-    
+    @Nested
+    class listarUsuarios{
+        @Test
+        @DisplayName("Deve retornar todos os usuários com sucesso")
+        void deveRetornarTodosOsUsuariosComSucesso(){
+            var usuario = new Usuario(
+                    UUID.randomUUID(),
+                    "usuario_teste",
+                    "email@teste.com",
+                    "senha_hash",
+                    Instant.now(),
+                    null,
+                    true
+            );
+
+            var listaUsuarios = List.of(usuario);
+
+            doReturn(listaUsuarios)
+                    .when(usuarioRepository)
+                    .findAllByActiveTrue();
+
+            var output = usuarioService.listarUsuarios();
+
+            assertNotNull(output);
+
+            // listarUsuarios() não retorna null
+            assertEquals(listaUsuarios.size(), output.size());
+        }
+    }
 }
