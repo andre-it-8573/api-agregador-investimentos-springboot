@@ -1,6 +1,7 @@
 package run.example.agregador_investimentos.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -87,27 +88,5 @@ public class UsuarioService {
         } else {
             throw new EntityNotFoundException("Usuário não encontrado");
         }
-    }
-
-
-    public void criarConta(String idUsuario, RequestConta requestConta){
-        var usuario = usuarioRepository.findById(UUID.fromString((idUsuario)))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        var conta = new Conta(
-                UUID.randomUUID(),
-                usuario,
-                null,
-                requestConta.descricao(),
-                new ArrayList<>()
-        );
-        var contaCriada = contaRepository.save(conta);
-
-        var enderecoPagamento = new EnderecoCobranca(
-                contaCriada.getIdConta(),
-                conta,
-                requestConta.rua(),
-                requestConta.numero()
-        );
-        enderecoCobrancaRepository.save(enderecoPagamento);
     }
 }

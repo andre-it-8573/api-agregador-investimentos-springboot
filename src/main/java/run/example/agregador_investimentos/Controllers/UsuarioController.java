@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/v1/usuarios")
 public class UsuarioController {
 
     // Mesmo princípio da classe de regra de negócio (@Autowired substitui)
@@ -64,13 +64,5 @@ public class UsuarioController {
         usuarioService.deletarUsuario(idUsuario);
         // HTTP 204 (No Content)
         return ResponseEntity.noContent().build();
-    }
-
-    // Criação de conta e endereco de pagamento para determinado usuario
-    @PostMapping("/{idUsuario}/contas")
-    public ResponseEntity<ResponseConta> registrarConta(@PathVariable("idUsuario") String idUsuario,
-                                                        @RequestBody RequestConta requestConta){
-        usuarioService.criarConta(idUsuario, requestConta);
-        return ResponseEntity.created(URI.create("/v1/users/" + idUsuario.toString())).build();
     }
 }

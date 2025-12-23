@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.engine.internal.Cascade;
 import run.example.agregador_investimentos.Entities.Conta.Conta;
 
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class EnderecoCobranca {
     @Column(name = "cd_tabela")
     private UUID id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     // Com @PrimaKeyJoinColumn, garante que que o id do endereco de cobranca definido é o mesmo
     // que o da conta no relacionamento 1:1 (PK de conta e o mesmo do endereco de cobranca)
     @MapsId

@@ -28,7 +28,8 @@ public class Conta {
     @JoinColumn(name = "usuario_id") // FK
     private Usuario usuario;
 
-    @OneToOne(mappedBy = "conta")
+    // O que é feito em um é automaticamente refletido no outro
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "conta")
     @PrimaryKeyJoinColumn
     private EnderecoCobranca enderecoCobranca;
 
