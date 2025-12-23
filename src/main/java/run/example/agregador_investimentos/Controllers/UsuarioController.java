@@ -3,6 +3,8 @@ package run.example.agregador_investimentos.Controllers;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import run.example.agregador_investimentos.Entities.Conta.RequestConta;
+import run.example.agregador_investimentos.Entities.Conta.ResponseConta;
 import run.example.agregador_investimentos.Entities.Usuario.RequestUsuario;
 import run.example.agregador_investimentos.Entities.Usuario.ResponseUsuario;
 import run.example.agregador_investimentos.Service.UsuarioService;
@@ -62,5 +64,13 @@ public class UsuarioController {
         usuarioService.deletarUsuario(idUsuario);
         // HTTP 204 (No Content)
         return ResponseEntity.noContent().build();
+    }
+
+    // Criação de conta e endereco de pagamento para determinado usuario
+    @PostMapping("/{idUsuario}/contas")
+    public ResponseEntity<ResponseConta> registrarConta(@PathVariable("idUsuario") String idUsuario,
+                                                        @RequestBody RequestConta requestConta){
+        usuarioService.criarConta(idUsuario, requestConta);
+        return ResponseEntity.created(URI.create("/v1/users/" + idUsuario.toString())).build();
     }
 }

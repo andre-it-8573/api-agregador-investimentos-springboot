@@ -11,5 +11,5 @@ import java.util.UUID;
 
 @Repository
 public interface AcaoInvestimentoRepository extends JpaRepository<AcaoInvestimento, String> {
-    List<Usuario> findAllByActiveTrue();
+    List<AcaoInvestimento> findAll();
 }

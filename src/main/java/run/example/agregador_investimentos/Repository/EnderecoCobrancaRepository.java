@@ -12,5 +12,5 @@ import java.util.UUID;
 
 @Repository
 public interface EnderecoCobrancaRepository extends JpaRepository<EnderecoCobranca, UUID> {
-    List<Usuario> findAllByActiveTrue();
+    List<EnderecoCobranca> findAll();
 }

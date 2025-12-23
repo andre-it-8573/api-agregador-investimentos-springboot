@@ -9,6 +9,7 @@ public record ResponseInvestimento(
 ) {
     public static ResponseInvestimento fromEntity(Investimento investimento) {
         return new ResponseInvestimento(
+        // Extrai os valores individuais da PK Composta
                 investimento.getId().getIdConta(),
                 investimento.getId().getIdAcaoInvestimento(),
                 investimento.getQuantidade()

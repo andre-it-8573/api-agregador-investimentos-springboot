@@ -11,5 +11,5 @@ import java.util.UUID;
 
 @Repository
 public interface ContaRepository extends JpaRepository<Conta, UUID> {
-    List<Usuario> findAllByActiveTrue();
+    List<Conta> findAll();
 }

@@ -1,12 +1,21 @@
 package run.example.agregador_investimentos.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
+import run.example.agregador_investimentos.Entities.Conta.Conta;
+import run.example.agregador_investimentos.Entities.Conta.RequestConta;
+import run.example.agregador_investimentos.Entities.EnderecoCobranca.EnderecoCobranca;
 import run.example.agregador_investimentos.Entities.Usuario.RequestUsuario;
 import run.example.agregador_investimentos.Entities.Usuario.ResponseUsuario;
 import run.example.agregador_investimentos.Entities.Usuario.Usuario;
+import run.example.agregador_investimentos.Repository.ContaRepository;
+import run.example.agregador_investimentos.Repository.EnderecoCobrancaRepository;
 import run.example.agregador_investimentos.Repository.UsuarioRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,11 +23,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
+
     // Injeção de dependência com @Service
     // Quando a classe é instanciada, o contrutor chama a classe que a implementa a interface repositório
     private UsuarioRepository usuarioRepository;
-    private UsuarioService(UsuarioRepository usuarioRepository){
+    private EnderecoCobrancaRepository enderecoCobrancaRepository;
+    private ContaRepository contaRepository;
+
+    private UsuarioService(UsuarioRepository usuarioRepository,
+                           EnderecoCobrancaRepository enderecoCobrancaRepository,
+                           ContaRepository contaRepository){
+
         this.usuarioRepository = usuarioRepository;
+        this.enderecoCobrancaRepository = enderecoCobrancaRepository;
+        this.contaRepository = contaRepository;
+
     }
 
     public List<ResponseUsuario> listarUsuarios(){
@@ -68,5 +87,27 @@ public class UsuarioService {
         } else {
             throw new EntityNotFoundException("Usuário não encontrado");
         }
+    }
+
+
+    public void criarConta(String idUsuario, RequestConta requestConta){
+        var usuario = usuarioRepository.findById(UUID.fromString((idUsuario)))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        var conta = new Conta(
+                UUID.randomUUID(),
+                usuario,
+                null,
+                requestConta.descricao(),
+                new ArrayList<>()
+        );
+        var contaCriada = contaRepository.save(conta);
+
+        var enderecoPagamento = new EnderecoCobranca(
+                contaCriada.getIdConta(),
+                conta,
+                requestConta.rua(),
+                requestConta.numero()
+        );
+        enderecoCobrancaRepository.save(enderecoPagamento);
     }
 }
