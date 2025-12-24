@@ -13,6 +13,7 @@ import run.example.agregador_investimentos.Service.ContaService;
 import run.example.agregador_investimentos.Service.UsuarioService;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -27,6 +28,12 @@ public class ContaController {
         this.usuarioService = usuarioService;
     }
 
+    @GetMapping("/{idUsuario}/contas")
+    public ResponseEntity<List<ResponseConta>> listarContasPorUsuario(@PathVariable("idUsuario") String idUsuario){
+        var contas = contaService.listarContasPorUsuario(idUsuario);
+        return ResponseEntity.ok(contas);
+    }
+
     // Criação de conta e endereco de pagamento para determinado usuario
     @PostMapping("/{idUsuario}/contas")
     public ResponseEntity<ResponseConta> registrarConta(@PathVariable("idUsuario") String idUsuario,
@@ -34,4 +41,5 @@ public class ContaController {
         contaService.criarConta(idUsuario, requestConta);
         return ResponseEntity.created(URI.create("/v1/users/" + idUsuario.toString())).build();
     }
+
 }

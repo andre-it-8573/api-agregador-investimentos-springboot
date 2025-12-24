@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import run.example.agregador_investimentos.Entities.Conta.Conta;
 import run.example.agregador_investimentos.Entities.Conta.RequestConta;
+import run.example.agregador_investimentos.Entities.Conta.ResponseConta;
 import run.example.agregador_investimentos.Entities.EnderecoCobranca.EnderecoCobranca;
 import run.example.agregador_investimentos.Repository.ContaRepository;
 import run.example.agregador_investimentos.Repository.EnderecoCobrancaRepository;
 import run.example.agregador_investimentos.Repository.UsuarioRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,6 +28,18 @@ public class ContaService {
         this.usuarioRepository = usuarioRepository;
         this.enderecoCobrancaRepository = enderecoCobrancaRepository;
         this.contaRepository = contaRepository;
+    }
+
+    public List<ResponseConta> listarContasPorUsuario(String idUsuario){
+        var usuario = usuarioRepository.findById(UUID.fromString(idUsuario))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        //Retorna uma lista de DTOs
+        return usuario.getContas()
+                .stream()
+                .map(ac ->
+                        new ResponseConta(ac.getIdConta(), ac.getDescricao()))
+                .toList();
     }
 
     @Transactional
