@@ -22,6 +22,7 @@ public class AcaoInvestimentoController {
         this.acaoInvestimentoService = acaoInvestimentoService;
     }
 
+    // Também atualiza e não gera duplicação de ação
     @PostMapping
     public ResponseEntity<ResponseAcaoInvestimento> registrarAcao(@RequestBody RequestAcaoInvestimento requestAcaoInvestimento){
         acaoInvestimentoService.registrarAcao(requestAcaoInvestimento);

@@ -2,9 +2,7 @@ package run.example.agregador_investimentos.Entities.Investimento;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -13,6 +11,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class InvestimentoId {
     @Column(name = "cd_conta")
     private UUID idConta;

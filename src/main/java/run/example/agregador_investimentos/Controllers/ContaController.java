@@ -9,6 +9,8 @@ import run.example.agregador_investimentos.Entities.Conta.Conta;
 import run.example.agregador_investimentos.Entities.Conta.RequestConta;
 import run.example.agregador_investimentos.Entities.Conta.ResponseConta;
 import run.example.agregador_investimentos.Entities.EnderecoCobranca.EnderecoCobranca;
+import run.example.agregador_investimentos.Entities.Investimento.RequestInvestimento;
+import run.example.agregador_investimentos.Entities.Investimento.ResponseInvestimento;
 import run.example.agregador_investimentos.Service.ContaService;
 import run.example.agregador_investimentos.Service.UsuarioService;
 
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/usuarios")
+@RequestMapping("/v1/contas")
 public class ContaController {
     private ContaService contaService;
     private UsuarioService usuarioService;
@@ -40,6 +42,15 @@ public class ContaController {
                                                         @RequestBody RequestConta requestConta){
         contaService.criarConta(idUsuario, requestConta);
         return ResponseEntity.created(URI.create("/v1/users/" + idUsuario.toString())).build();
+    }
+
+    // Associação de ações a uma conta
+    @PostMapping("/{idConta}/acoes")
+    public ResponseEntity<Void> associarAcoesPraConta(@PathVariable("idConta") String idConta,
+                                                                      @RequestBody RequestInvestimento requestInvestimento){
+        contaService.associarAcoesPraConta(idConta, requestInvestimento);
+
+        return ResponseEntity.ok().build();
     }
 
 }
