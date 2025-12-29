@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import run.example.agregador_investimentos.Entities.Usuario.RequestUsuario;
 import run.example.agregador_investimentos.Entities.Usuario.Usuario;
+import run.example.agregador_investimentos.Exceptions.ExcecaoUsuarioNaoEncontrado;
 import run.example.agregador_investimentos.Repository.UsuarioRepository;
 
 import java.time.Instant;
@@ -190,7 +191,7 @@ class UsuarioServiceTest {
             doReturn(Optional.empty())
                     .when(usuarioRepository).findById(any(UUID.class));
 
-            assertThrows(EntityNotFoundException.class, () -> {
+            assertThrows(ExcecaoUsuarioNaoEncontrado.class, () -> {
                 usuarioService.deletarUsuario(idUsuario);
             });
 
@@ -249,7 +250,7 @@ class UsuarioServiceTest {
             doReturn(Optional.empty())
                     .when(usuarioRepository).findById(UUID.fromString(idUsuario));
 
-            assertThrows(EntityNotFoundException.class, () -> {
+            assertThrows(ExcecaoUsuarioNaoEncontrado.class, () -> {
                 usuarioService.atualizarUsuario(atualizacaoUsuarioDto, idUsuario);
             });
 
