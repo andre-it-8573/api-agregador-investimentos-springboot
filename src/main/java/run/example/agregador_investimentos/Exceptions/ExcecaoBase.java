@@ -1,4 +1,4 @@
-package run.example.agregador_investimentos.exceptions;
+package run.example.agregador_investimentos.Exceptions;
 
 public abstract class ExcecaoBase extends RuntimeException {
 

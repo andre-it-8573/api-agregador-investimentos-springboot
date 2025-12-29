@@ -32,7 +32,7 @@ public class UsuarioService {
     private EnderecoCobrancaRepository enderecoCobrancaRepository;
     private ContaRepository contaRepository;
 
-    private UsuarioService(UsuarioRepository usuarioRepository,
+    public UsuarioService(UsuarioRepository usuarioRepository,
                            EnderecoCobrancaRepository enderecoCobrancaRepository,
                            ContaRepository contaRepository){
 
