@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import run.example.agregador_investimentos.Domain.Conta.Conta;
+import run.example.agregador_investimentos.Security.Enum.RolesUsuario;
 
 import java.time.Instant;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package run.example.agregador_investimentos.Infrastructure.Security;
+package run.example.agregador_investimentos.Security;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

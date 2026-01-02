@@ -1,4 +1,4 @@
-package run.example.agregador_investimentos.Domain.Usuario;
+package run.example.agregador_investimentos.Security.Enum;
 
 public enum RolesUsuario {
     ADMIN("admin"),
